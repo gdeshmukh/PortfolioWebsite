@@ -1,8 +1,6 @@
 // Wait for DOM to load
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- 3. Old Intersection Observer removed ---
-    // CSS transitions now trigger directly based on `.active-slide` class and `.contact-active` body class.
 
     // --- 4. Skills Wheel ---
     const wheels = document.querySelectorAll('.skills-wheel');
@@ -131,7 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // (Navbar Scroll Effect Removed to keep header transparent)
 
         currentSlideIndex = newIndex;
 
@@ -146,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, scrollCooldown);
     }
 
-    // Re-bind Mobile Menu Toggle (Basic) ---
+    // Mobile Menu Toggle
     const menuToggle = document.querySelector('.menu-toggle');
     const navLinks = document.querySelector('.nav-links');
 

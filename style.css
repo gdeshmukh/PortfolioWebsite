@@ -474,7 +474,7 @@ ul {
 .wheel-title {
     font-size: 1.2rem;
     color: var(--accent-secondary);
-    margin-bottom: 20px;
+    margin-bottom: 8px;
     text-align: center;
     font-family: var(--font-serif);
     letter-spacing: 1px;
@@ -506,15 +506,15 @@ ul {
 .skill-item {
     position: absolute;
     transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-    font-size: 1.2rem;
+    font-size: 1.05rem;
     font-weight: 500;
     color: var(--text-muted);
     text-align: center;
     cursor: pointer;
     background: var(--bg-surface);
     border: 1px solid var(--glass-border);
-    padding: 12px 30px;
-    min-width: 220px;
+    padding: 10px 20px;
+    min-width: 230px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -534,13 +534,42 @@ ul {
     transition: border-color var(--transition-smooth);
 }
 
-.skill-item.active {
+.skill-item i {
+    margin-right: 12px;
+    font-size: 1.05rem;
+    opacity: 0.8;
+}
+
+/* Language Skills (Art Deco Gold) */
+.skill-item.lang-skill.active {
     color: var(--accent-primary);
     border-color: var(--accent-primary);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(212, 175, 55, 0.1);
 }
 
-.skill-item.active::before {
+.skill-item.lang-skill.active::before {
+    border-color: rgba(212, 175, 55, 0.3);
+}
+
+/* Tool & Framework Skills (Icy Blue / Teal to contrast Gold) */
+.skill-item.tool-skill.active {
+    color: #4db8ff;
+    border-color: #4db8ff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(77, 184, 255, 0.1);
+}
+
+.skill-item.tool-skill.active::before {
+    border-color: rgba(77, 184, 255, 0.3);
+}
+
+/* General Hobbies (Fallback to gold if they don't have a category class) */
+.skill-item:not(.lang-skill):not(.tool-skill).active {
+    color: var(--accent-primary);
+    border-color: var(--accent-primary);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(212, 175, 55, 0.1);
+}
+
+.skill-item:not(.lang-skill):not(.tool-skill).active::before {
     border-color: rgba(212, 175, 55, 0.3);
 }
 
@@ -597,7 +626,7 @@ ul {
 
 .project-content h3 {
     font-size: 1.5rem;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 .project-content p {
@@ -676,11 +705,11 @@ ul {
     bottom: 0;
     left: 0;
     width: 100%;
-    padding: 20px 0;
-    text-align: center;
+    padding: 15px 0;
     pointer-events: none;
     /* Let wheel scrolls pass through */
     z-index: 1000;
+    background: linear-gradient(to top, rgba(10, 14, 23, 0.95) 0%, rgba(10, 14, 23, 0) 100%);
 }
 
 .persistent-footer a {
@@ -690,19 +719,40 @@ ul {
 
 .footer-content {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    gap: 20px;
+}
+
+.footer-left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+}
+
+.footer-left p {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin: 0;
+    opacity: 0.8;
+    letter-spacing: 0.5px;
+}
+
+.footer-dot {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    opacity: 0.4;
 }
 
 .social-links {
     display: flex;
-    gap: 25px;
+    gap: 20px;
 }
 
 .social-links a {
     color: var(--text-muted);
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     opacity: 0.7;
     transition: all 0.3s ease;
 }
@@ -711,11 +761,6 @@ ul {
     color: var(--accent-primary);
     opacity: 1;
     transform: translateY(-3px);
-}
-
-footer p {
-    color: var(--text-muted);
-    font-size: 0.85rem;
 }
 
 /* =========================================
