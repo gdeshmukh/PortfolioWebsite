@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaurav Deshmukh | Software & Systems Engineer</title>
+    <meta name="description"
+        content="Personal portfolio of Gaurav Deshmukh, showcasing skills in software engineering, AI, and systems architecture.">
+    <!-- Google Fonts: Playfair Display & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Background Blob Elements -->
+    <div class="bg-blob blob-1"></div>
+    <div class="bg-blob blob-2"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="#" class="logo">Gaurav Deshmukh<span>.</span></a>
+            <ul class="nav-links">
+                <li><a href="#about" data-slide="1">About</a></li>
+                <li><a href="#projects" data-slide="2">Projects</a></li>
+                <li><a href="#contact" data-slide="3" class="btn-primary">Contact Me</a></li>
+            </ul>
+            <!-- Mobile Menu Toggle -->
+            <div class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main id="main">
+        <div id="slides-wrapper">
+            <!-- Hero Section -->
+            <section id="hero" class="hero slide-section active-slide">
+                <div class="container hero-content">
+                    <div class="hero-text fade-in-up" style="transition-delay: 50ms;">
+                        <p class="greeting">Hi, I am Gaurav Deshmukh,</p>
+                        <h1 class="title">A driven <span class="highlight">Data & Software Engineer</span>.</h1>
+                        <p class="subtitle">I specialize in AI, data analytics, and software support for semiconductor
+                            design—from FPGA solutions at Intel to trackside telemetry in motorsports.</p>
+                        <div class="cta-group">
+                            <a href="#contact" data-slide="3" class="btn-primary cta-btn">Get In Touch</a>
+                        </div>
+                    </div>
+                    <div class="hero-image-container fade-in-up" style="transition-delay: 150ms;">
+                        <div class="glass-orb profile-img-wrapper">
+                            <img src="ProfilePic.jpg" alt="Profile Picture" class="profile-img">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About/Skills Section -->
+            <section id="about" class="about slide-section">
+                <div class="container">
+                    <div class="about-grid">
+                        <div class="about-text fade-in-up">
+                            <div class="section-header fade-in-up">
+                                <h2>About Me</h2>
+                                <div class="header-line"></div>
+                            </div>
+                            <p>Hi everybody, nice to meet you! I am a driven software engineer with 3 years of
+                                experience at
+                                Intel, focusing on providing software support for innovative hybrid FPGA solutions for
+                                verification and validation.</p>
+                            <p>I have a huge interest in artificial intelligence and machine learning, always looking
+                                for
+                                opportunities to combine any of my other hobbies with AI. Outside of a professional
+                                environment, I love motorsports in almost every form as well as soccer.</p>
+                            <p>Please feel free to reach out to me, I'd love to connect!</p>
+                        </div>
+                        <div class="skills-container fade-in-up" style="transition-delay: 200ms;">
+                            <div class="wheels-container">
+                                <div class="wheel-column">
+                                    <h3 class="wheel-title">Tech Skills</h3>
+                                    <div class="skills-wheel-wrapper">
+                                        <div class="skills-wheel" id="skills-wheel">
+                                            <div class="skill-item">Python</div>
+                                            <div class="skill-item">C++</div>
+                                            <div class="skill-item">Java</div>
+                                            <div class="skill-item">Swift</div>
+                                            <div class="skill-item">TensorFlow</div>
+                                            <div class="skill-item">Keras</div>
+                                            <div class="skill-item">Kubernetes</div>
+                                            <div class="skill-item">Docker</div>
+                                            <div class="skill-item">SQL</div>
+                                            <div class="skill-item">PostgreSQL</div>
+                                            <div class="skill-item">Grafana</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="wheel-column">
+                                    <h3 class="wheel-title">Interests</h3>
+                                    <div class="skills-wheel-wrapper">
+                                        <div class="skills-wheel" id="hobbies-wheel">
+                                            <div class="skill-item">Auto & Motorsports</div>
+                                            <div class="skill-item">AI Applications</div>
+                                            <div class="skill-item">Soccer</div>
+                                            <div class="skill-item">Golf</div>
+                                            <div class="skill-item">Basketball</div>
+                                            <div class="skill-item">Cryptocurrency</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section id="projects" class="projects slide-section">
+                <div class="container">
+                    <div class="section-header fade-in-up">
+                        <h2>Featured Projects</h2>
+                        <div class="header-line"></div>
+                    </div>
+                    <div class="project-grid">
+                        <!-- Project 1 -->
+                        <div class="project-card glass-panel fade-in-up">
+                            <div class="project-content">
+                                <h3>AI Yellow Flag Predictor</h3>
+                                <p>Developed a neural net binary classifier using Keras to generate yellow flag
+                                    predictions
+                                    for IMSA events. Utilizes Selenium to scrape live timing data stored in MongoDB.</p>
+                                <div class="project-tech">
+                                    <span>Keras</span>
+                                    <span>Selenium</span>
+                                    <span>MongoDB</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Project 2 -->
+                        <div class="project-card glass-panel fade-in-up" style="transition-delay: 100ms;">
+                            <div class="project-content">
+                                <h3>FPGA Analytics Dashboard</h3>
+                                <p>Designed an interactive Grafana dashboard ecosystems for Intel FPGA Engineers,
+                                    deployed
+                                    via Kubernetes. Implemented predictive analytics through Keras regression models.
+                                </p>
+                                <div class="project-tech">
+                                    <span>Grafana</span>
+                                    <span>Kubernetes</span>
+                                    <span>PostgreSQL</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact slide-section">
+            <!-- Contact Section Content -->
+            <div class="container contact-content fade-in-up">
+                <h2>Let's build something extraordinary together.</h2>
+                <p>Based in the Bay Area, CA. I'm currently open to new opportunities. Whether you have a question
+                    or
+                    just want to say hi, I'll try my best to get back to you!</p>
+                <div class="contact-cta">
+                    <a href="mailto:deshmukhgaurav523@gmail.com" class="btn-primary large-btn">Say Hello</a>
+                    <p class="contact-email"><em>deshmukhgaurav523@gmail.com</em></p>
+                </div>
+            </div>
+        </section>
+        </div>
+    </main>
+
+    <!-- Persistent Footer -->
+    <footer class="persistent-footer">
+        <div class="container footer-content fade-in-up" style="transition-delay: 200ms;">
+            <div class="social-links">
+                <a href="https://linkedin.com/in/gdesh" target="_blank" aria-label="LinkedIn"><i
+                        class="fa-brands fa-linkedin"></i></a>
+                <a href="https://github.com/gdeshmukh" target="_blank" aria-label="GitHub"><i
+                        class="fa-brands fa-github"></i></a>
+            </div>
+            <p>&copy; 2026 Gaurav Deshmukh. Designed &amp; Built with Passion.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
