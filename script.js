@@ -124,8 +124,15 @@ document.addEventListener('DOMContentLoaded', () => {
         slides.forEach((slide, idx) => {
             if (idx === newIndex) {
                 slide.classList.add('active-slide');
-            } else {
+                slide.classList.remove('passed-slide');
+            } else if (idx < newIndex) {
+                // Slides before the current one should move up
                 slide.classList.remove('active-slide');
+                slide.classList.add('passed-slide');
+            } else {
+                // Slides after the current one should reset below
+                slide.classList.remove('active-slide');
+                slide.classList.remove('passed-slide');
             }
         });
 
