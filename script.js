@@ -254,20 +254,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const slideLinks = document.querySelectorAll('a[data-slide]');
     slideLinks.forEach(link => {
         link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const slideTarget = parseInt(link.getAttribute('data-slide'));
-            if (!isNaN(slideTarget)) {
-                updateSlides(slideTarget);
+            // Only hijack the click to slide if we are on the main multi-slide page
+            if (slides.length > 1) {
+                e.preventDefault();
+                const slideTarget = parseInt(link.getAttribute('data-slide'));
+                if (!isNaN(slideTarget)) {
+                    updateSlides(slideTarget);
+                }
             }
         });
     });
 
     // Logo click returns to hero
     const logo = document.querySelector('.logo');
-    logo.addEventListener('click', (e) => {
-        e.preventDefault();
-        updateSlides(0);
-    });
+    if (logo) {
+        logo.addEventListener('click', (e) => {
+            if (slides.length > 1) {
+                e.preventDefault();
+                updateSlides(0);
+            }
+        });
+    }
 
     // --- 6. Timeline Drag to Scroll Logic ---
     const timelineWrapper = document.querySelector('.timeline-wrapper');

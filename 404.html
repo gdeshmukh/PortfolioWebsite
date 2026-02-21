@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Not Found | Gaurav Deshmukh</title>
+    <!-- Google Fonts: Playfair Display & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Background Blob Elements -->
+    <div class="bg-blob blob-1"></div>
+    <div class="bg-blob blob-2"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="index.html" class="logo">Gaurav Deshmukh<span>.</span></a>
+            <ul class="nav-links">
+                <li><a href="index.html#about" data-slide="1">About</a></li>
+                <li><a href="index.html#experience" data-slide="2">Experience</a></li>
+                <li><a href="index.html#projects" data-slide="3">Projects</a></li>
+                <li><a href="index.html#contact" data-slide="4" class="btn-primary">Contact Me</a></li>
+            </ul>
+            <!-- Mobile Menu Toggle -->
+            <div class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main id="main" class="error-page-container">
+        <!-- Error Section -->
+        <section id="error-404" class="slide-section active-slide">
+            <div class="container hero-content error-content">
+                <div class="error-text slide-in-left" style="animation-delay: 50ms;">
+                    <h1 class="title" style="font-size: 8rem; margin-bottom: 10px;">404<span class="highlight">.</span>
+                    </h1>
+                    <p class="subtitle" style="font-size: 1.5rem; max-width: 600px; margin: 0 auto 40px auto;">Looks
+                        like you drifted off track.</p>
+                </div>
+                <div class="error-cta slide-in-right"
+                    style="animation-delay: 150ms; display: flex; justify-content: center; align-items: center;">
+                    <a href="index.html" class="btn-primary cta-btn">Return to Home</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Persistent Footer -->
+    <footer class="persistent-footer">
+        <div class="container footer-content fade-in-up" style="transition-delay: 200ms;">
+            <div class="footer-left">
+                <p>&copy; 2026 Gaurav Deshmukh.</p>
+                <span class="footer-dot">•</span>
+                <p>San Ramon, CA</p>
+            </div>
+            <div class="social-links">
+                <a href="resume.pdf" target="_blank" aria-label="Resume"><i class="fa-solid fa-file-lines"></i></a>
+                <a href="https://linkedin.com/in/gdesh" target="_blank" aria-label="LinkedIn"><i
+                        class="fa-brands fa-linkedin"></i></a>
+                <a href="https://github.com/gdeshmukh" target="_blank" aria-label="GitHub"><i
+                        class="fa-brands fa-github"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

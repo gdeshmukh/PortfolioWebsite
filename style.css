@@ -997,6 +997,27 @@ ul {
 }
 
 /* =========================================
+/* =========================================
+   404 Page Styling
+   ========================================= */
+.error-page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 160px);
+    /* Account for navbar and footer roughly */
+    text-align: center;
+}
+
+.error-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+/* =========================================
    Animations & Interactivity
    ========================================= */
 /* Initial hidden state for scroll animations */
