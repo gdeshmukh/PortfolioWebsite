@@ -145,6 +145,22 @@ document.addEventListener('DOMContentLoaded', () => {
             navLinksElement.style.display = 'none';
         }
 
+        // Auto-center timeline when Experience section is visited
+        if (slides[newIndex].id === 'experience') {
+            setTimeout(() => {
+                const timelineWrapper = document.querySelector('.timeline-wrapper');
+                if (timelineWrapper) {
+                    const timelineItems = timelineWrapper.querySelectorAll('.timeline-item');
+                    if (timelineItems.length > 4) {
+                        const targetItem = timelineItems[4];
+                        const wrapperCenter = timelineWrapper.clientWidth / 2;
+                        const itemCenter = targetItem.offsetLeft + (targetItem.clientWidth / 2);
+                        timelineWrapper.scrollLeft = itemCenter - wrapperCenter;
+                    }
+                }
+            }, 500); // 500ms allows the CSS transition to complete and dimensions to solidify
+        }
+
         setTimeout(() => {
             isSlideAnimating = false;
         }, scrollCooldown);
@@ -175,8 +191,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Wheel Event Listener
     window.addEventListener('wheel', (e) => {
-        // Prevent sliding the page if user is scrolling inside the skills wheel
+        // Prevent sliding the page if user is scrolling inside the skills wheel or timeline
         if (e.target.closest('.skills-wheel-wrapper')) return;
+
+        const timelineWrapper = e.target.closest('.timeline-wrapper');
+        if (timelineWrapper) {
+            // Allow horizontal scrolling if a horizontal mouse wheel is used
+            if (e.deltaX !== 0) {
+                timelineWrapper.scrollLeft += e.deltaX;
+                e.preventDefault();
+                return; // Stop here if horizontal scrolling
+            }
+            // If deltaY is used, we DO NOT return here anymore so the slide update logic below fires!
+        }
 
         if (isSlideAnimating) return;
         if (e.deltaY > 50) {
@@ -190,17 +217,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateSlides(currentSlideIndex - 1);
             }
         }
-    }, { passive: true });
+    }, { passive: false });
 
     // Touch Events for Mobile Swipe
     let touchStartY = 0;
     window.addEventListener('touchstart', (e) => {
         if (e.target.closest('.skills-wheel-wrapper')) return;
+        if (e.target.closest('.timeline-wrapper')) return; // let native horizontal swipe work inside timeline
         touchStartY = e.touches[0].clientY;
     }, { passive: true });
 
     window.addEventListener('touchend', (e) => {
         if (e.target.closest('.skills-wheel-wrapper')) return;
+        if (e.target.closest('.timeline-wrapper')) return; // let native horizontal swipe work inside timeline
         if (isSlideAnimating) return;
 
         const touchEndY = e.changedTouches[0].clientY;
@@ -239,4 +268,42 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         updateSlides(0);
     });
+
+    // --- 6. Timeline Drag to Scroll Logic ---
+    const timelineWrapper = document.querySelector('.timeline-wrapper');
+    if (timelineWrapper) {
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        timelineWrapper.addEventListener('mousedown', (e) => {
+            isDown = true;
+            timelineWrapper.style.cursor = 'grabbing';
+            // Disable text selection while dragging
+            timelineWrapper.style.userSelect = 'none';
+            startX = e.pageX - timelineWrapper.offsetLeft;
+            scrollLeft = timelineWrapper.scrollLeft;
+        });
+
+        timelineWrapper.addEventListener('mouseleave', () => {
+            isDown = false;
+            timelineWrapper.style.cursor = 'grab';
+            timelineWrapper.style.userSelect = ''; // Reset
+        });
+
+        timelineWrapper.addEventListener('mouseup', () => {
+            isDown = false;
+            timelineWrapper.style.cursor = 'grab';
+            timelineWrapper.style.userSelect = ''; // Reset
+        });
+
+        timelineWrapper.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - timelineWrapper.offsetLeft;
+            const walk = (x - startX) * 2; // Scroll-fast multiplier
+            timelineWrapper.scrollLeft = scrollLeft - walk;
+        });
+    }
+
 });
