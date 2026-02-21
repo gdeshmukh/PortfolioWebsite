@@ -145,7 +145,8 @@ ul {
    ========================================= */
 /* Buttons */
 .btn-primary,
-.btn-secondary {
+.btn-secondary,
+.btn-gold {
     display: inline-block;
     padding: 14px 32px;
     font-weight: 500;
@@ -177,6 +178,17 @@ ul {
 .btn-secondary:hover {
     background-color: var(--accent-primary);
     color: #000;
+}
+
+.btn-gold {
+    background-color: transparent;
+    color: var(--accent-primary);
+}
+
+.btn-gold:hover {
+    background-color: #8f7639;
+    color: var(--bg-base);
+    border-color: #8f7639;
 }
 
 /* Glass Panels (Now geometric Art Deco panels) */
@@ -920,6 +932,13 @@ ul {
     flex-direction: column;
     align-items: center;
     gap: 15px;
+}
+
+.contact-cta .btn-group {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .contact-email {
