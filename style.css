@@ -473,6 +473,11 @@ ul {
     padding: 0 20px;
     mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
     -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+    cursor: grab;
+}
+
+.skills-wheel-wrapper:active {
+    cursor: grabbing;
 }
 
 .skills-wheel {

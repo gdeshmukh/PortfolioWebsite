@@ -101,9 +101,59 @@ document.addEventListener('DOMContentLoaded', () => {
             // Click interaction
             items.forEach((item, index) => {
                 item.addEventListener('click', () => {
+                    // Prevent click if we were just dragging
+                    if (isDragging) return;
                     activeIndex = index;
                     updateWheel();
                 });
+            });
+
+            // Mouse Drag interaction
+            let isDragging = false;
+            let dragStartY = 0;
+            let currentDragIndex = activeIndex;
+
+            wheelWrapper.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                dragStartY = e.clientY;
+                currentDragIndex = activeIndex; // Track index at start of drag
+                wheelWrapper.style.cursor = 'grabbing';
+                // Slight optimization to prevent text selection while dragging
+                document.body.style.userSelect = 'none';
+            });
+
+            window.addEventListener('mouseup', () => {
+                if (isDragging) {
+                    // Add a tiny delay before resetting isDragging so click events can be blocked if a drag occurred.
+                    // If no actual movement occurred, we immediately allow clicks.
+                    setTimeout(() => {
+                        isDragging = false;
+                    }, 50);
+                }
+                wheelWrapper.style.cursor = 'grab';
+                document.body.style.userSelect = '';
+            });
+
+            wheelWrapper.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+
+                const diff = dragStartY - e.clientY;
+                const sensitivity = 40; // Pixels per item switch
+
+                // Calculate how many items we should offset based on drag distance
+                let steps = Math.floor(Math.abs(diff) / sensitivity);
+
+                if (steps > 0) {
+                    const direction = Math.sign(diff); // 1 for drag up (next items), -1 for drag down (prev items)
+
+                    // Update active index based on drag direction and steps
+                    activeIndex = (currentDragIndex + (direction * steps)) % total;
+                    if (activeIndex < 0) {
+                        activeIndex += total; // Handle negative modulo correctly
+                    }
+
+                    updateWheel();
+                }
             });
         }
     });
