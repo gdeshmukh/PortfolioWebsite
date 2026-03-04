@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const total = items.length;
 
             function updateWheel() {
+                if (window.innerWidth <= 768) return; // Disable 3D transforms on mobile
+
                 items.forEach((item, index) => {
                     item.classList.remove('active');
 
@@ -56,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Mouse wheel interaction
             wheelWrapper.addEventListener('wheel', (e) => {
+                if (window.innerWidth <= 768) return; // Let native swipe/scroll handle mobile
                 e.preventDefault();
                 if (isScrolling) return;
 
@@ -77,14 +80,17 @@ document.addEventListener('DOMContentLoaded', () => {
             // Touch swipe interaction for mobile
             let startY = 0;
             wheelWrapper.addEventListener('touchstart', (e) => {
+                if (window.innerWidth <= 768) return; // Let native swipe/scroll handle mobile
                 startY = e.touches[0].clientY;
             }, { passive: true });
 
             wheelWrapper.addEventListener('touchmove', (e) => {
+                if (window.innerWidth <= 768) return; // Let native swipe/scroll handle mobile
                 e.preventDefault();
             }, { passive: false });
 
             wheelWrapper.addEventListener('touchend', (e) => {
+                if (window.innerWidth <= 768) return; // Let native swipe/scroll handle mobile
                 const endY = e.changedTouches[0].clientY;
                 const diff = startY - endY;
 
@@ -114,6 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let currentDragIndex = activeIndex;
 
             wheelWrapper.addEventListener('mousedown', (e) => {
+                if (window.innerWidth <= 768) return; // Let native swipe/scroll handle mobile
                 isDragging = true;
                 dragStartY = e.clientY;
                 currentDragIndex = activeIndex; // Track index at start of drag
@@ -135,6 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             wheelWrapper.addEventListener('mousemove', (e) => {
+                if (window.innerWidth <= 768) return; // Let native swipe/scroll handle mobile
                 if (!isDragging) return;
 
                 const diff = dragStartY - e.clientY;
@@ -255,6 +263,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // If deltaY is used, we DO NOT return here anymore so the slide update logic below fires!
         }
 
+        // If mobile viewport, let native scroll handle it
+        if (window.innerWidth <= 768) return;
+
         if (isSlideAnimating) return;
         if (e.deltaY > 50) {
             // Scroll down
@@ -280,6 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('touchend', (e) => {
         if (e.target.closest('.skills-wheel-wrapper')) return;
         if (e.target.closest('.timeline-wrapper')) return; // let native horizontal swipe work inside timeline
+        if (window.innerWidth <= 768) return; // Disable custom swipe transitions on mobile
         if (isSlideAnimating) return;
 
         const touchEndY = e.changedTouches[0].clientY;
@@ -304,8 +316,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const slideLinks = document.querySelectorAll('a[data-slide]');
     slideLinks.forEach(link => {
         link.addEventListener('click', (e) => {
-            // Only hijack the click to slide if we are on the main multi-slide page
-            if (slides.length > 1) {
+            // Only hijack the click to slide if we are on the main multi-slide page and NOT on mobile
+            if (slides.length > 1 && window.innerWidth > 768) {
                 e.preventDefault();
                 const slideTarget = parseInt(link.getAttribute('data-slide'));
                 if (!isNaN(slideTarget)) {
@@ -319,7 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const logo = document.querySelector('.logo');
     if (logo) {
         logo.addEventListener('click', (e) => {
-            if (slides.length > 1) {
+            if (slides.length > 1 && window.innerWidth > 768) {
                 e.preventDefault();
                 updateSlides(0);
             }
@@ -362,5 +374,79 @@ document.addEventListener('DOMContentLoaded', () => {
             timelineWrapper.scrollLeft = scrollLeft - walk;
         });
     }
+
+    // --- 7. Mobile Footer Intersection Observer ---
+    const footer = document.querySelector('.persistent-footer');
+    const contactSection = document.getElementById('contact');
+
+    if (footer && contactSection) {
+        const footerObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                // If the screen is mobile sized...
+                if (window.innerWidth <= 768) {
+                    if (entry.isIntersecting) {
+                        footer.classList.add('show-footer');
+                    } else {
+                        footer.classList.remove('show-footer');
+                    }
+                } else {
+                    // Always remove the toggling class on Desktop so default visibility applies
+                    footer.classList.remove('show-footer');
+                }
+            });
+        }, {
+            root: null, // observation is relative to the viewport
+            threshold: 0.1 // 10% of contact section must be visible to trigger
+        });
+
+        footerObserver.observe(contactSection);
+
+        // Fail-safe resize listener incase user rotates phone or resizes window actively
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                footer.classList.remove('show-footer');
+            }
+        });
+    }
+
+    // --- 8. Mobile Horizontal Wheel Drag-to-Scroll ---
+    const wheelWrappers = document.querySelectorAll('.skills-wheel-wrapper');
+    wheelWrappers.forEach(wrapper => {
+        let isDownMobile = false;
+        let startXMobile;
+        let scrollLeftMobile;
+
+        wrapper.addEventListener('mousedown', (e) => {
+            if (window.innerWidth > 768) return; // Only apply on mobile horizontal mode
+            isDownMobile = true;
+            wrapper.style.cursor = 'grabbing';
+            wrapper.style.userSelect = 'none';
+            startXMobile = e.pageX - wrapper.offsetLeft;
+            scrollLeftMobile = wrapper.scrollLeft;
+        });
+
+        wrapper.addEventListener('mouseleave', () => {
+            if (window.innerWidth > 768) return;
+            isDownMobile = false;
+            wrapper.style.cursor = 'grab';
+            wrapper.style.userSelect = '';
+        });
+
+        wrapper.addEventListener('mouseup', () => {
+            if (window.innerWidth > 768) return;
+            isDownMobile = false;
+            wrapper.style.cursor = 'grab';
+            wrapper.style.userSelect = '';
+        });
+
+        wrapper.addEventListener('mousemove', (e) => {
+            if (window.innerWidth > 768) return;
+            if (!isDownMobile) return;
+            e.preventDefault();
+            const x = e.pageX - wrapper.offsetLeft;
+            const walk = (x - startXMobile) * 2; // Scroll-fast multiplier
+            wrapper.scrollLeft = scrollLeftMobile - walk;
+        });
+    });
 
 });

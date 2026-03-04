@@ -439,7 +439,8 @@ ul {
 
 .wheels-container {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    /* Prevent stacking on ultrawide monitors */
     gap: 40px;
     width: 100%;
     justify-content: center;
@@ -1135,9 +1136,196 @@ ul {
 }
 
 @media (max-width: 768px) {
+
+    /* 1. Restore native scrolling and prevent horizontal wobble */
+    html,
+    body,
+    #main {
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        height: auto !important;
+        max-width: 100vw;
+    }
+
+    .container {
+        padding: 0 15px;
+        /* Reduce side padding slightly for more screen space */
+        max-width: 100vw;
+        overflow-x: hidden;
+    }
+
+    /* 2. Reset slide sections */
+    .slide-section {
+        position: relative !important;
+        transform: none !important;
+        opacity: 1 !important;
+        min-height: auto;
+        padding: 50px 0;
+        /* Reduced from 80px */
+        z-index: 1 !important;
+        pointer-events: auto !important;
+    }
+
+    /* 3. Disable fade-in animations on mobile for immediate visibility */
+    .slide-section:not(.active-slide) .fade-in-up,
+    .fade-in-up,
+    .slide-in-left,
+    .slide-in-right {
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
+        transition: none !important;
+    }
+
+    /* 4. Experience Timeline - Vertical Conversion */
+    .experience {
+        padding-top: 20px;
+    }
+
+    .timeline-wrapper {
+        padding: 10px 0;
+        overflow-x: hidden !important;
+        /* No horizontal scroll */
+        mask-image: none !important;
+        -webkit-mask-image: none !important;
+    }
+
+    .timeline-container {
+        display: flex !important;
+        flex-direction: column !important;
+        /* Stack vertically */
+        align-items: flex-start !important;
+        /* Align to left edge */
+        width: 100% !important;
+        padding: 0 15px !important;
+    }
+
+    /* Convert Center Horizontal Line into Left Vertical Line */
+    .timeline-line {
+        top: 0 !important;
+        left: 30px !important;
+        /* Indent slightly from edge */
+        width: 2px !important;
+        height: 100% !important;
+        transform: none !important;
+    }
+
+    .timeline-line::before,
+    .timeline-line::after {
+        display: none !important;
+        /* Hide end dots */
+    }
+
+    /* Convert Timeline Cards */
+    .timeline-item {
+        width: 100% !important;
+        height: auto !important;
+        min-height: auto !important;
+        margin: 0 0 30px 0 !important;
+        /* Stack gap */
+        display: block !important;
+        /* Remove flex centering */
+    }
+
+    .timeline-item:last-child {
+        margin-bottom: 0 !important;
+    }
+
+    /* Snap the Node Point to the new Left Vertical Line */
+    .timeline-point {
+        left: 30.5px !important;
+        /* Snap to line */
+        top: 30px !important;
+        /* Near top of item content */
+        transform: translate(-50%, -50%) !important;
+    }
+
+    /* Reset Card Content Rules */
+    .timeline-content {
+        padding: 0 0 0 60px !important;
+        /* Indent text away from the line */
+        text-align: left !important;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        /* Space between title and details */
+    }
+
+    /* Override all absolute/hover positioning and force elements into natural vertical flow */
+    .timeline-item:nth-child(odd) .timeline-info,
+    .timeline-item:nth-child(even) .timeline-info,
+    .timeline-item:nth-child(odd) .timeline-details,
+    .timeline-item:nth-child(even) .timeline-details {
+        position: relative !important;
+        top: auto !important;
+        bottom: auto !important;
+        left: auto !important;
+        right: auto !important;
+        transform: none !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        margin: 0 !important;
+        width: 100% !important;
+        pointer-events: auto !important;
+    }
+
+    /* Soften the details card on mobile slightly */
+    .timeline-details {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+    }
+
+    /* Suppress hover translate animations */
+    .timeline-item:nth-child(even):hover .timeline-info,
+    .timeline-item:nth-child(odd):hover .timeline-info,
+    .timeline-item:nth-child(even):hover .timeline-details,
+    .timeline-item:nth-child(odd):hover .timeline-details {
+        transform: none !important;
+    }
+
+    /* 5. Adjust project grid */
+    .project-grid {
+        grid-template-columns: 1fr;
+        gap: 15px !important;
+        /* Compress grid spacing */
+    }
+
+    .project-card {
+        padding: 5px !important;
+        /* Smaller glass pane bounds */
+    }
+
+    .project-content {
+        padding: 15px !important;
+        /* Tighter internal padding */
+    }
+
+    .project-content h3 {
+        font-size: 1.25rem !important;
+        /* Smaller title */
+        margin-bottom: 10px !important;
+    }
+
+    .project-content p {
+        font-size: 0.95rem !important;
+        margin-bottom: 15px !important;
+    }
+
+    .project-tech {
+        gap: 5px !important;
+        margin-bottom: 10px !important;
+    }
+
+    .project-tech span {
+        font-size: 0.7rem !important;
+        padding: 3px 8px !important;
+    }
+
+    /* Keep existing mobile nav toggles */
     .nav-links {
         display: none;
-        /* simple mobile hide for now -> can be toggled via JS */
     }
 
     .menu-toggle {
@@ -1145,6 +1333,109 @@ ul {
     }
 
     .section-padding {
-        padding: 60px 0;
+        padding: 30px 0;
+        /* Huge vertical compression */
+    }
+
+    /* Compress the About Grid specifically */
+    .about-grid {
+        gap: 20px;
+        /* Reduced from 60px */
+    }
+
+    .about-text p {
+        margin-bottom: 15px;
+        font-size: 1rem;
+        /* Slightly smaller text */
+        line-height: 1.4;
+    }
+
+    .section-header {
+        margin-bottom: 25px;
+        /* Reduced from 60px */
+    }
+
+    .section-header h2 {
+        font-size: 2rem;
+    }
+
+    /* 6. Footer Visibility Toggle on Contact Screen */
+    .persistent-footer {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none !important;
+        transition: opacity var(--transition-smooth), visibility var(--transition-smooth);
+    }
+
+    .persistent-footer.show-footer {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto !important;
+    }
+
+    /* 7. Mobile Skills Wheels (Horizontal Scroll) */
+    .wheels-container {
+        flex-direction: column;
+        /* Force wheels to stack on mobile */
+        gap: 15px;
+        /* Compress space between wheels */
+    }
+
+    .wheel-column {
+        flex: 0 0 auto !important;
+        width: 100%;
+        /* Strip the desktop 250px minimum height constraint */
+    }
+
+    .wheel-title {
+        margin-bottom: 10px;
+        /* Reduced from 20px */
+        font-size: 1.1rem;
+    }
+
+    .skills-wheel-wrapper {
+        height: auto !important;
+        mask-image: none !important;
+        -webkit-mask-image: none !important;
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        padding: 5px 0 15px 0 !important;
+        /* Extremely compressed top padding */
+        margin-left: -15px;
+        /* Negative margin to let it touch screen edges */
+        margin-right: -15px;
+        padding-left: 15px !important;
+        /* But pad the content so it starts inside */
+        -ms-overflow-style: none;
+        /* IE and Edge */
+        scrollbar-width: none;
+        /* Firefox */
+        justify-content: flex-start !important;
+    }
+
+    .skills-wheel-wrapper::-webkit-scrollbar {
+        display: none;
+    }
+
+    .skills-wheel {
+        flex-direction: row !important;
+        justify-content: flex-start !important;
+        gap: 15px !important;
+        width: auto !important;
+    }
+
+    .skill-item {
+        position: relative !important;
+        transform: none !important;
+        opacity: 1 !important;
+        z-index: 1 !important;
+        flex: 0 0 auto !important;
+        filter: none !important;
+        padding: 6px 14px;
+        /* Smaller paddings inside items */
+        font-size: 0.95rem;
+        /* Slightly smaller text */
+        min-width: auto;
+        /* Let them shrink around text natively */
     }
 }
