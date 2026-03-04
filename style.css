@@ -1277,6 +1277,11 @@ ul {
         padding: 0 !important;
     }
 
+    .timeline-details::before {
+        display: none !important;
+        /* Hide faint gold glass outline */
+    }
+
     /* Suppress hover translate animations */
     .timeline-item:nth-child(even):hover .timeline-info,
     .timeline-item:nth-child(odd):hover .timeline-info,
