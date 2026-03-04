@@ -1270,16 +1270,22 @@ ul {
     }
 
     /* Soften the details card on mobile slightly */
-    .timeline-details {
+    .timeline-details,
+    .timeline-details.glass-panel {
         background: transparent !important;
         border: none !important;
+        outline: none !important;
         box-shadow: none !important;
         padding: 0 !important;
     }
 
-    .timeline-details::before {
+    .timeline-details::before,
+    .timeline-details.glass-panel::before {
         display: none !important;
         /* Hide faint gold glass outline */
+        border: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
     }
 
     /* Suppress hover translate animations */
