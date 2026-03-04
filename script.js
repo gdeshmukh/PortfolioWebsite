@@ -209,8 +209,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const timelineWrapper = document.querySelector('.timeline-wrapper');
                 if (timelineWrapper) {
                     const timelineItems = timelineWrapper.querySelectorAll('.timeline-item');
-                    if (timelineItems.length > 4) {
-                        const targetItem = timelineItems[4];
+                    if (timelineItems.length > 3) {
+                        const targetItem = timelineItems[3];
                         const wrapperCenter = timelineWrapper.clientWidth / 2;
                         const itemCenter = targetItem.offsetLeft + (targetItem.clientWidth / 2);
                         timelineWrapper.scrollLeft = itemCenter - wrapperCenter;
