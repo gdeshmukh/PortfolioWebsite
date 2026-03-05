@@ -437,6 +437,14 @@ ul {
     margin-bottom: 20px;
 }
 
+.mobile-text {
+    display: none !important;
+}
+
+.desktop-text {
+    display: block !important;
+}
+
 .wheels-container {
     display: flex;
     flex-wrap: nowrap;
@@ -1382,6 +1390,15 @@ ul {
         opacity: 1;
         visibility: visible;
         pointer-events: auto !important;
+    }
+
+    /* About Section Mobile Text swap */
+    .about-grid .mobile-text {
+        display: block !important;
+    }
+
+    .about-grid .desktop-text {
+        display: none !important;
     }
 
     /* 7. Mobile Skills Wheels (Horizontal Scroll) */
