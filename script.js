@@ -178,11 +178,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
         isSlideAnimating = true;
 
+        const isScrollingUp = newIndex < currentSlideIndex;
+
         // All sections are now standard slides
         slides.forEach((slide, idx) => {
             if (idx === newIndex) {
                 slide.classList.add('active-slide');
                 slide.classList.remove('passed-slide');
+
+                if (isScrollingUp) {
+                    console.log(`[Scroll Fix] isScrollingUp=true. Target slide: ${slide.id}`);
+                    // Scrolling UP into a section: start at the bottom of it
+                    const startTime = performance.now();
+                    const forceBottom = (now) => {
+                        slide.scrollTop = 999999;
+                        if (now - startTime < 850) {
+                            requestAnimationFrame(forceBottom);
+                        } else {
+                            console.log(`[Scroll Fix] Finished forcing bottom. Final scrollTop: ${slide.scrollTop}, max possible: ${slide.scrollHeight - slide.clientHeight}`);
+                        }
+                    };
+                    requestAnimationFrame(forceBottom);
+                } else {
+                    console.log(`[Scroll Fix] isScrollingUp=false. Target slide: ${slide.id}`);
+                    slide.scrollTop = 0;
+                }
             } else if (idx < newIndex) {
                 // Slides before the current one should move up
                 slide.classList.remove('active-slide');
@@ -203,21 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
             navLinksElement.style.display = 'none';
         }
 
-        // Auto-center timeline when Experience section is visited
-        if (slides[newIndex].id === 'experience') {
-            setTimeout(() => {
-                const timelineWrapper = document.querySelector('.timeline-wrapper');
-                if (timelineWrapper) {
-                    const timelineItems = timelineWrapper.querySelectorAll('.timeline-item');
-                    if (timelineItems.length > 3) {
-                        const targetItem = timelineItems[3];
-                        const wrapperCenter = timelineWrapper.clientWidth / 2;
-                        const itemCenter = targetItem.offsetLeft + (targetItem.clientWidth / 2);
-                        timelineWrapper.scrollLeft = itemCenter - wrapperCenter;
-                    }
-                }
-            }, 500); // 500ms allows the CSS transition to complete and dimensions to solidify
-        }
+
 
         setTimeout(() => {
             isSlideAnimating = false;
@@ -249,31 +255,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Wheel Event Listener
     window.addEventListener('wheel', (e) => {
-        // Prevent sliding the page if user is scrolling inside the skills wheel or timeline
-        if (e.target.closest('.skills-wheel-wrapper')) return;
+        console.log("WHEEL DETECTED. deltaY:", e.deltaY, "target:", e.target, "currentSlideIndex:", currentSlideIndex);
 
-        const timelineWrapper = e.target.closest('.timeline-wrapper');
-        if (timelineWrapper) {
-            // Allow horizontal scrolling if a horizontal mouse wheel is used
-            if (e.deltaX !== 0) {
-                timelineWrapper.scrollLeft += e.deltaX;
-                e.preventDefault();
-                return; // Stop here if horizontal scrolling
-            }
-            // If deltaY is used, we DO NOT return here anymore so the slide update logic below fires!
-        }
+        // Prevent sliding the page if user is scrolling inside the skills wheel
+        if (e.target.closest('.skills-wheel-wrapper')) return;
 
         // If mobile viewport, let native scroll handle it
         if (window.innerWidth <= 768) return;
 
         if (isSlideAnimating) return;
-        if (e.deltaY > 50) {
+
+        const activeSlide = slides[currentSlideIndex];
+
+        if (e.deltaY > 20) {
             // Scroll down
+            if (activeSlide && activeSlide.scrollHeight > activeSlide.clientHeight) {
+                const bottomValue = Math.ceil(activeSlide.scrollTop + activeSlide.clientHeight);
+                console.log("Wheel Down:", {
+                    scrollTop: activeSlide.scrollTop,
+                    clientHeight: activeSlide.clientHeight,
+                    scrollHeight: activeSlide.scrollHeight,
+                    bottomValue: bottomValue
+                });
+
+                // Allow a tight 5px give for padding margin bounds
+                if (bottomValue + 5 < activeSlide.scrollHeight) {
+                    return;
+                }
+            }
             if (currentSlideIndex < slides.length - 1) {
                 updateSlides(currentSlideIndex + 1);
             }
-        } else if (e.deltaY < -50) {
+        } else if (e.deltaY < -20) {
             // Scroll up
+            // Let native scroll happen if we haven't reached the top of an overflowing slide
+            if (activeSlide && activeSlide.scrollHeight > activeSlide.clientHeight) {
+                console.log("Wheel Up:", { scrollTop: activeSlide.scrollTop });
+                if (activeSlide.scrollTop > 5) {
+                    return;
+                }
+            }
             if (currentSlideIndex > 0) {
                 updateSlides(currentSlideIndex - 1);
             }
@@ -284,27 +305,39 @@ document.addEventListener('DOMContentLoaded', () => {
     let touchStartY = 0;
     window.addEventListener('touchstart', (e) => {
         if (e.target.closest('.skills-wheel-wrapper')) return;
-        if (e.target.closest('.timeline-wrapper')) return; // let native horizontal swipe work inside timeline
         touchStartY = e.touches[0].clientY;
     }, { passive: true });
 
     window.addEventListener('touchend', (e) => {
         if (e.target.closest('.skills-wheel-wrapper')) return;
-        if (e.target.closest('.timeline-wrapper')) return; // let native horizontal swipe work inside timeline
         if (window.innerWidth <= 768) return; // Disable custom swipe transitions on mobile
         if (isSlideAnimating) return;
 
+        const activeSlide = slides[currentSlideIndex];
         const touchEndY = e.changedTouches[0].clientY;
         const diff = touchStartY - touchEndY;
 
         if (Math.abs(diff) > 50) { // minimum swipe threshold
             if (diff > 0) {
                 // Swipe Up -> Scroll Down
+                // Let native scroll happen if we haven't reached the bottom
+                if (activeSlide && activeSlide.scrollHeight > activeSlide.clientHeight) {
+                    const bottomValue = Math.ceil(activeSlide.scrollTop + activeSlide.clientHeight);
+                    if (bottomValue + 5 < activeSlide.scrollHeight) {
+                        return;
+                    }
+                }
                 if (currentSlideIndex < slides.length - 1) {
                     updateSlides(currentSlideIndex + 1);
                 }
             } else {
                 // Swipe Down -> Scroll Up
+                // Let native scroll happen if we haven't reached the top
+                if (activeSlide && activeSlide.scrollHeight > activeSlide.clientHeight) {
+                    if (activeSlide.scrollTop > 5) {
+                        return;
+                    }
+                }
                 if (currentSlideIndex > 0) {
                     updateSlides(currentSlideIndex - 1);
                 }
@@ -338,42 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 6. Timeline Drag to Scroll Logic ---
-    const timelineWrapper = document.querySelector('.timeline-wrapper');
-    if (timelineWrapper) {
-        let isDown = false;
-        let startX;
-        let scrollLeft;
 
-        timelineWrapper.addEventListener('mousedown', (e) => {
-            isDown = true;
-            timelineWrapper.style.cursor = 'grabbing';
-            // Disable text selection while dragging
-            timelineWrapper.style.userSelect = 'none';
-            startX = e.pageX - timelineWrapper.offsetLeft;
-            scrollLeft = timelineWrapper.scrollLeft;
-        });
-
-        timelineWrapper.addEventListener('mouseleave', () => {
-            isDown = false;
-            timelineWrapper.style.cursor = 'grab';
-            timelineWrapper.style.userSelect = ''; // Reset
-        });
-
-        timelineWrapper.addEventListener('mouseup', () => {
-            isDown = false;
-            timelineWrapper.style.cursor = 'grab';
-            timelineWrapper.style.userSelect = ''; // Reset
-        });
-
-        timelineWrapper.addEventListener('mousemove', (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - timelineWrapper.offsetLeft;
-            const walk = (x - startX) * 2; // Scroll-fast multiplier
-            timelineWrapper.scrollLeft = scrollLeft - walk;
-        });
-    }
 
     // --- 7. Mobile Footer Intersection Observer ---
     const footer = document.querySelector('.persistent-footer');
