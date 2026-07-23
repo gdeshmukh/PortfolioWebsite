@@ -1,79 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 Not Found | Gaurav Deshmukh</title>
-    <meta name="theme-color" content="#1a2230">
-    <!-- Google Fonts: Playfair Display & Outfit -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
-        rel="stylesheet">
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css?v=5">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>404 — Page Not Found · Gaurav Deshmukh</title>
+<meta name="theme-color" content="#131a27">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  body{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
+  .error404{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;padding:120px 24px}
+  .error404__code{font-family:var(--serif);font-weight:400;font-size:120px;line-height:1;margin:16px 0 18px}
+  .error404__code span{color:var(--gold)}
+  .error404__msg{font-size:18px;line-height:1.6;color:var(--muted);max-width:440px;margin:0 auto 34px}
+  @media (max-width:860px){.error404__code{font-size:84px}}
+</style>
 </head>
-
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-content">
-            <a href="index.html" class="logo">Gaurav Deshmukh<span>.</span></a>
-            <ul class="nav-links">
-                <li><a href="index.html#about" data-slide="1">About</a></li>
-                <li><a href="index.html#experience" data-slide="2">Experience</a></li>
-                <li><a href="index.html#projects" data-slide="3">Projects</a></li>
-                <li><a href="index.html#contact" data-slide="4" class="btn-primary">Contact Me</a></li>
-            </ul>
-            <!-- Mobile Menu Toggle -->
-            <div class="menu-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </nav>
 
-    <main id="main" class="error-page-container">
-        <!-- Error Section -->
-        <section id="error-404" class="slide-section active-slide">
-            <div class="container hero-content error-content">
-                <div class="error-text slide-in-left" style="animation-delay: 50ms;">
-                    <h1 class="title" style="font-size: 8rem; margin-bottom: 10px;">404<span class="highlight">.</span>
-                    </h1>
-                    <p class="subtitle" style="font-size: 1.5rem; max-width: 600px; margin: 0 auto 40px auto;">Looks
-                        like you drifted off track.</p>
-                </div>
-                <div class="error-cta slide-in-right"
-                    style="animation-delay: 150ms; display: flex; justify-content: center; align-items: center;">
-                    <a href="index.html" class="btn-primary cta-btn">Return to Home</a>
-                </div>
-            </div>
-        </section>
-    </main>
+<nav class="nav">
+<div class="nav__inner">
+<a href="index.html" class="nav__logo">Gaurav Deshmukh<span>.</span></a>
+<div class="nav__links">
+<a href="index.html#about">About</a>
+<a href="index.html#skills">Skills</a>
+<a href="index.html#experience">Experience</a>
+<a href="index.html#projects">Work</a>
+<a href="index.html#contact" class="nav__cta">Contact</a>
+</div>
+</div>
+</nav>
 
-    <!-- Persistent Footer -->
-    <footer class="persistent-footer">
-        <div class="container footer-content fade-in-up" style="transition-delay: 200ms;">
-            <div class="footer-left">
-                <p>&copy; 2026 Gaurav Deshmukh.</p>
-                <span class="footer-dot">•</span>
-                <p>San Ramon, CA</p>
-            </div>
-            <div class="social-links">
-                <a href="resume.pdf" target="_blank" rel="noopener noreferrer" aria-label="Resume"><i class="fa-solid fa-file-lines"></i></a>
-                <a href="https://linkedin.com/in/gdesh" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i
-                        class="fa-brands fa-linkedin"></i></a>
-                <a href="https://github.com/gdeshmukh" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i
-                        class="fa-brands fa-github"></i></a>
-            </div>
-        </div>
-    </footer>
+<main class="error404">
+<div>
+<div class="eyebrow">ERROR · 404</div>
+<h1 class="error404__code">404<span>.</span></h1>
+<p class="error404__msg">You've drifted off track — this page doesn't exist.</p>
+<a href="index.html" class="btn btn--primary">Back to home</a>
+</div>
+</main>
 
-    <script src="script.js?v=5"></script>
 </body>
-
 </html>
