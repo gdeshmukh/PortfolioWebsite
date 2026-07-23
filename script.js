@@ -187,20 +187,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 slide.classList.remove('passed-slide');
 
                 if (isScrollingUp) {
-                    console.log(`[Scroll Fix] isScrollingUp=true. Target slide: ${slide.id}`);
                     // Scrolling UP into a section: start at the bottom of it
                     const startTime = performance.now();
                     const forceBottom = (now) => {
                         slide.scrollTop = 999999;
                         if (now - startTime < 850) {
                             requestAnimationFrame(forceBottom);
-                        } else {
-                            console.log(`[Scroll Fix] Finished forcing bottom. Final scrollTop: ${slide.scrollTop}, max possible: ${slide.scrollHeight - slide.clientHeight}`);
                         }
                     };
                     requestAnimationFrame(forceBottom);
                 } else {
-                    console.log(`[Scroll Fix] isScrollingUp=false. Target slide: ${slide.id}`);
                     slide.scrollTop = 0;
                 }
             } else if (idx < newIndex) {
@@ -255,8 +251,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Wheel Event Listener
     window.addEventListener('wheel', (e) => {
-        console.log("WHEEL DETECTED. deltaY:", e.deltaY, "target:", e.target, "currentSlideIndex:", currentSlideIndex);
-
         // Prevent sliding the page if user is scrolling inside the skills wheel
         if (e.target.closest('.skills-wheel-wrapper')) return;
 
@@ -271,13 +265,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // Scroll down
             if (activeSlide && activeSlide.scrollHeight > activeSlide.clientHeight) {
                 const bottomValue = Math.ceil(activeSlide.scrollTop + activeSlide.clientHeight);
-                console.log("Wheel Down:", {
-                    scrollTop: activeSlide.scrollTop,
-                    clientHeight: activeSlide.clientHeight,
-                    scrollHeight: activeSlide.scrollHeight,
-                    bottomValue: bottomValue
-                });
-
                 // Allow a tight 5px give for padding margin bounds
                 if (bottomValue + 5 < activeSlide.scrollHeight) {
                     return;
@@ -290,7 +277,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // Scroll up
             // Let native scroll happen if we haven't reached the top of an overflowing slide
             if (activeSlide && activeSlide.scrollHeight > activeSlide.clientHeight) {
-                console.log("Wheel Up:", { scrollTop: activeSlide.scrollTop });
                 if (activeSlide.scrollTop > 5) {
                     return;
                 }
