@@ -1,8 +1,3 @@
 # gdesh.com
 
-Static portfolio built with Astro and deployed to GitHub Pages.
-
-```sh
-npm install
-npm run dev
-```
+A simple portfolio website showing off my experiences, skills, and projects. 
